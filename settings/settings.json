@@ -1,0 +1,18 @@
+{
+  "server":{
+    "host": "localhost",
+    "port": 6090
+  },
+  "service": {
+    "spacebro":{
+      "client": {
+        "name": "settings.json"
+      }
+    }
+  },
+  "recipe": "myrecipe",
+  "defaultUrl": "http://localhost/",
+  "folder":{
+    "output": "/tmp/"
+  }
+}

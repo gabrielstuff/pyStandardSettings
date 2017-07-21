@@ -1,0 +1,19 @@
+{
+  "server":{
+    "host": "localhost",
+    "port": 6090
+  },
+  "service": {
+    "spacebro":{
+      "channelName": "media-stream",
+      "client": {
+        "name": "custom"
+      }
+    }
+  },
+  "recipe": "myrecipe",
+  "defaultUrl": "http://localhost/",
+  "folder":{
+    "output": "/tmp/"
+  }
+}

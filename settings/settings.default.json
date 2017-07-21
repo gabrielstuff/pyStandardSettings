@@ -1,0 +1,21 @@
+{
+  "server":{
+    "host": "localhost",
+    "port": 6090
+  },
+  "service": {
+    "spacebro":{
+      "host": "spacebro.space",
+      "port": 3333,
+      "channelName": "media-stream",
+      "client": {
+        "name": "py-standard-settings"
+      }
+    }
+  },
+  "recipe": "myrecipe",
+  "defaultUrl": "http://localhost/",
+  "folder":{
+    "output": "/tmp/"
+  }
+}
