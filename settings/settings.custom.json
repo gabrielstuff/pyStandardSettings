@@ -11,8 +11,7 @@
       }
     }
   },
-  "recipe": "myrecipe",
-  "defaultUrl": "http://localhost/",
+  "recipe": "customRecipe",
   "folder":{
     "output": "/tmp/"
   }

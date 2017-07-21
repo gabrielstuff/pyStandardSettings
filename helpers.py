@@ -1,4 +1,11 @@
 import collections
+import json
+
+def castToType(val):
+  val = json.loads(json.dumps({ 'val':  val}))["val"]
+  if val.isnumeric():
+    val = int(val)
+  return val
 
 def flatArguments(dest, nested, pre='--'):
   for k, v in nested.iteritems():
@@ -17,7 +24,7 @@ def nestArguments(args, delimiter='.'):
         if key not in parent:
           parent[key] = {}
         parent = parent[key]
-      parent[keys[-1]] = v
+      parent[keys[-1]] = castToType(v)
   return parsedArgs
 
 def dict_merge(dct, merge_dct):

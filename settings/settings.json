@@ -5,13 +5,14 @@
   },
   "service": {
     "spacebro":{
+      "channelName": "settings.json",
       "client": {
         "name": "settings.json"
       }
     }
   },
   "recipe": "myrecipe",
-  "defaultUrl": "http://localhost/",
+  "defaultUrl": "http://10.60.60.1/",
   "folder":{
     "output": "/tmp/"
   }
