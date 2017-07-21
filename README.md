@@ -6,4 +6,4 @@ a port of nodejs [standard-settings](https://github.com/soixantecircuits/standar
 
 # test command
 
-`python test.py --settings settings/settings.custom.json --server.port 5555`
+`FOLDER_OUTPUT=/home/ python test.py --settings settings/settings.custom.json --server.port 5555`
