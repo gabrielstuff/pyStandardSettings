@@ -36,11 +36,25 @@ class TestStandardSettings(unittest.TestCase):
         with patch.object(sys, 'argv', testargs):
           from pyStandardSettings import settings
           self.assertEqual(settings.settings, 'settings/settings.custom.json')
+
     def test_env(self):
       with patch.dict(os.environ, {'FOLDER_OUTPUT': '/home/'}):
         with patch.object(sys, 'argv', testargs):
           from pyStandardSettings import getSettings
           self.assertEqual(getSettings().folder.output, '/home/')
+
+    def test_env_with_dont_override_type(self):
+      with patch.dict(os.environ, {'NOTOBJECT': 'myvalue', 'NOTOBJECT_IS_OBJECT': 'no'}):
+        with patch.object(sys, 'argv', testargs):
+          from pyStandardSettings import getSettings
+          self.assertEqual(getSettings().notobject, 'myvalue')
+
+    def test_env_with_dont_override_type_both_order(self):
+      with patch.dict(os.environ, {'NOTOBJECT_IS_OBJECT': 'no', 'NOTOBJECT': 'myvalue'}):
+        with patch.object(sys, 'argv', testargs):
+          from pyStandardSettings import getSettings
+          self.assertEqual(getSettings().notobject, 'myvalue')
+
 
 
 class TestStandardSettingsNoArgv(unittest.TestCase):

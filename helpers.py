@@ -15,17 +15,19 @@ def flatArguments(dest, nested, pre='--'):
       dest.append(pre + k)
 
 def nestArguments(args, delimiter='.'):
-  parsedArgs = {}
+  nestedArgs = {}
   for k, v in args.iteritems():
     if v is not None:
       keys = k.split(delimiter)
-      parent = parsedArgs
+      parent = nestedArgs
       for key in keys[:-1]:
-        if key not in parent:
-          parent[key] = {}
-        parent = parent[key]
-      parent[keys[-1]] = castToType(v)
-  return parsedArgs
+          if type(parent) is dict:
+              if key not in parent:
+                  parent[key] = {}
+              parent = parent[key]
+      if type(parent) is dict:
+          parent[keys[-1]] = castToType(v)
+  return nestedArgs
 
 def dict_merge(dct, merge_dct):
     """ Recursive dict merge. Inspired by :meth:``dict.update()``, instead of
