@@ -3,10 +3,17 @@ import json
 import argparse
 from dotmap import DotMap
 import os
+from os import path
+import sys
 import helpers
 
 def getSettings():
-  settings_files = ["settings/settings.default.json", "settings/settings.json"]
+  mainFolder = path.dirname(sys.modules['__main__'].__file__)
+  settings_files = [
+    path.join(mainFolder, 'settings/settings.default.json'),
+    path.join(mainFolder, 'settings/settings.json')
+  ]
+
   settings = {}
 
 # get available settings from settings.default.json
@@ -28,7 +35,8 @@ def getSettings():
 # parse
   args = parser.parse_args()
   if args.settings:
-    settings_files.append(args.settings)
+    customSettings = path.join(mainFolder, args.settings)
+    settings_files.append(customSettings)
 
 # get settings from files
   for file in settings_files:
