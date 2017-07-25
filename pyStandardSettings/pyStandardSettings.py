@@ -8,15 +8,33 @@ import sys
 import helpers
 
 def getSettings():
-  mainFolder = path.dirname(sys.modules['__main__'].__file__)
   settings_files = [
-    path.join(mainFolder, 'settings/settings.default.json'),
-    path.join(mainFolder, 'settings/settings.json')
+    'settings/settings.default.json',
+    'settings/settings.json'
   ]
 
   settings = {}
 
+# get settings.default.json path
+
+  settingsPath = '.'
+  lookUpPaths = [
+    path.dirname(sys.modules['__main__'].__file__),
+    os.getcwd()
+  ]
+  for lookUpPath in lookUpPaths:
+      if os.path.isfile(path.join(lookUpPath, settings_files[0])):
+        settingsPath = lookUpPath
+        break
+
+  settings_files[0] = path.join(settingsPath, settings_files[0])
+  settings_files[1] = path.join(settingsPath, settings_files[1])
+
+  if not os.path.isfile(settings_files[0]):
+      print('WARN:Settings not found ' + settings_files[0])
+
 # get available settings from settings.default.json
+  nestedArguments = {}
   try:
     with open(settings_files[0]) as settings_file:
         nestedArguments = json.load(settings_file)
@@ -35,8 +53,21 @@ def getSettings():
 # parse
   args = parser.parse_args()
   if args.settings:
-    customSettings = path.join(mainFolder, args.settings)
-    settings_files.append(customSettings)
+    # search path if not abs
+    if path.isabs(args.settings):
+      customSettings = path.join(settingsPath, args.settings)
+    else:
+      customSettingsPath = '.'
+      for lookUpPath in lookUpPaths:
+          if path.isfile(path.abspath(path.join(lookUpPath, args.settings))):
+            customSettingsPath = lookUpPath
+            break
+      customSettings = path.abspath(path.join(customSettingsPath, args.settings))
+
+    if not path.isfile(customSettings):
+        print('WARN: Custom settings not found ' + args.settings)
+    else:
+      settings_files.append(customSettings)
 
 # get settings from files
   for file in settings_files:

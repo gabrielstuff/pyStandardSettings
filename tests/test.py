@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import unittest
 import sys, os
+from os import path
 from mock import patch
 
 testargs = ['test', '--settings', 'settings/settings.custom.json', '--server.port', '5555']
@@ -12,7 +13,7 @@ class TestStandardSettingsArgv(unittest.TestCase):
           from pyStandardSettings.pyStandardSettings import settings
           self.assertEqual(settings.server.port, 5555)
 
-    def test_argv_deep_merge_dont_overwrite_file(self):
+    def test_argv_deep_merge_dont_overwrite_with_none(self):
         with patch.object(sys, 'argv', testargs):
           from pyStandardSettings.pyStandardSettings import settings
           self.assertEqual(settings.server.host, 'localhost')
@@ -31,6 +32,18 @@ class TestStandardSettingsNoArgv(unittest.TestCase):
 
 
 class TestStandardSettingsFiles(unittest.TestCase):
+    def test_file_default_settings_json__param_loaded(self):
+        with patch.object(sys, 'argv', testargs):
+          from pyStandardSettings.pyStandardSettings import settings
+          self.assertEqual(settings.server.host, 'localhost')
+
+    def test_file_default_settings_json__found_from_cwd(self):
+        with patch('os.getcwd', return_value=(path.dirname(sys.modules['__main__'].__file__))):
+          with patch.object(sys.modules['__main__'], '__file__', path.abspath(path.join(os.getcwd(), '../', 'test.py'))):
+            with patch.object(sys, 'argv', testargs):
+              from pyStandardSettings.pyStandardSettings import getSettings
+              self.assertEqual(getSettings().server.host, 'localhost')
+
     def test_file_settings_default_json__param_not_overwritten_with_none(self):
         with patch.object(sys, 'argv', testargs):
           from pyStandardSettings.pyStandardSettings import settings
@@ -45,6 +58,16 @@ class TestStandardSettingsFiles(unittest.TestCase):
         with patch.object(sys, 'argv', testargs):
           from pyStandardSettings.pyStandardSettings import settings
           self.assertEqual(settings.service.spacebro.client.name, 'custom')
+
+    def test_file_settings_custom_json_loaded_from_cwd(self):
+        with patch.object(sys, 'argv', ['test', '--settings', 'tests/settings/settings.custom.json']):
+          from pyStandardSettings.pyStandardSettings import getSettings
+          self.assertEqual(getSettings().service.spacebro.client.name, 'custom')
+
+    def test_file_settings_custom_json_loaded_abs_path(self):
+        with patch.object(sys, 'argv', ['test', '--settings', path.abspath(path.join(os.getcwd(), 'tests/settings/settings.custom.json'))]):
+          from pyStandardSettings.pyStandardSettings import getSettings
+          self.assertEqual(getSettings().service.spacebro.client.name, 'custom')
 
 class TestStandardSettingsEnv(unittest.TestCase):
 
