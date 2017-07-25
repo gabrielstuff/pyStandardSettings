@@ -8,4 +8,4 @@ a port of nodejs `standard-settings <https://github.com/soixantecircuits/standar
 test command
 ============
 
-`FOLDER_OUTPUT=/home/ python test.py --settings settings/settings.custom.json --server.port 5555`
+`python -m tests.test`
