@@ -20,7 +20,9 @@ Check below examples for usage and priority order.
 Installation
 ------------
 
-`pip install pyStandardSettings`  
+.. code:: bash
+
+  pip install pyStandardSettings 
 
 Usage
 -----
@@ -29,12 +31,14 @@ This module loads settings from a file, from commandline arguments, and environm
 It should be required at the very beginning of your project:
 
 .. code:: python
+  
   from pyStandardSettings import settings
 
 
 Then your settings are accessible using:
 
 .. code:: python
+
   print settings.server.port
 
 Priority order
@@ -45,14 +49,16 @@ Priority order
 Example:
 
 .. code:: bash
+
   SERVER_PORT=2500 python main.py 
-  service_spacebro_inputMessage=new-media python main.py`  
+  service_spacebro_inputMessage=new-media python main.py
 
 2. Command line parameters (argv)
 
 Example:  
 
 .. code:: bash
+
   python main.py --server.port 2000 # to specify a field 
   python main.py --settings settings/settings.prod.json # to specify a settings file  
 
@@ -83,6 +89,7 @@ The following schema is an example of settings used in Soixante circuits apps:
 
 
 .. code:: json
+
     {
       "server": {
           "host" : "myip",
@@ -134,12 +141,14 @@ To list all settings keys available in your project, use
 
 
 .. code:: bash
+
     python main.py -h
 
 
 and it will display
 
 .. code:: bash
+
     usage: main.py [-h] [-s SETTINGS] [--recipe RECIPE]
                    [--server.host SERVER.HOST] [--server.port SERVER.PORT]
     
@@ -154,4 +163,6 @@ and it will display
 test command
 ============
 
-`python -m tests.test`
+.. code:: bash
+
+  python -m tests.test
